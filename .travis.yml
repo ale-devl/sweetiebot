@@ -1,0 +1,24 @@
+language: node_js
+node_js:
+  - "8"
+  
+env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "ZpW7F9yLpr7jVWk8ZQoB+SX+WXeMwJheKAtBsOza1fVnwnjDglTORMa6SscnP0p9gJ38zlv4y63JrMa9XiIHEKycD6g9/B2+rKKORy7sz5bqiS6nOT/3Gpb1TOSTYAcjnfr09d4R9sswKP2A+CtMcEOmJazDwRzyvT6YP4gGFy7ugi1NjtAcFPspzuQpnu+nvcUJtQj6JTfWYtFWEywl46h1lW8RHvwkCiPapdHWOYD2V8JNWlx3apJlQlNstGvQt6b83B+v82QLHc1wexBV/F61sNZBgIudk+oVwUwAKM+5023jFjsAXo8JhGvN8m1TYmPIwtaCMtIBrasBLZRzbu5enJiEh8RMGZZk34THcjNJxtQI4x0mwJbf/3mLln9da/HthA92mzJly2C+cwzlIQStRgu3GnYnPSN3rLFazcm4is8gbffVGnB8Xk2Y7rdU21AESWU1QH3XtoEl0PTGab6zDqX1Fz4NPfcHbJOr6VRq5tFwwc2Wvh+KH4HsooTn3251wDuHBF2zSyiv3EMcqeOSgaQ178l+klYPvt4J/TM1COLAXk/1SaGOJQFakcX8rN/dP9+Q208BvEgD/s87XNDEu/BcS1fIM5bEz9aXMRFzE0BYMtXdZEEeWBO4rb8jaSwu5dVa3w2rY9GSGkivcB4QdaED3dYJC/ic3eMfbRA="
+
+before_install:
+    - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
+    - git config user.email "travis@build.bot" && git config user.name "Travis CI"
+    - git tag -a -m "Travis build" init
+    
+addons:
+  coverity_scan:
+    project:
+      name: "aletuna/sweetiebot"
+      description: "placeholder"
+    notification_email: janis.hanser@googlemail.com
+    build_command_prepend: ""
+    build_command:   ""
+    branch_pattern: master
