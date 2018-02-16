@@ -2,21 +2,35 @@ const sinon = require("sinon");
 
 let oSpies = {};
 
-const fnRegisterHealthChecks = function() {};
-
-oSpies.registerHealthChecks = sinon.spy(fnRegisterHealthChecks);
-
-const fnSingleHealthCheck = function() {
-    return new Promise((resolve, reject) => {
-        resolve();
-    });
+const fnLoadConfig = function() {
+    this.settings.adminRoles = ["Mockrole"];
+    this.settings.requiredPermissions = ["Mockpermission"];
+    this.settings.guildId = "MockGuildId";
+    this.settings.botCmdId = "MockChannelId";
 };
 
-oSpies.singleHealthCheck = sinon.spy(fnSingleHealthCheck);
+oSpies.loadConfig = sinon.spy(fnLoadConfig);
 
 let fullMock = {
-    registerHealthChecks: oSpies.registerHealthChecks,
-    singleHealthCheck: oSpies.singleHealthCheck,
+    name: "Mockname",
+    prefix: ">",
+    token: "Mocktoken",
+
+    settings: {
+        adminRoles: [],
+        requiredPermissions: [],
+        guildId: "",
+        botCmdId: ""
+    },
+
+    mysql: {
+        url: "Mockurl",
+        user: "Mockuser",
+        password: "Mockpassword",
+        database: "Mockdatabase"
+    },
+
+    loadConfig: oSpies.loadConfig,
     "@noCallThru": true /* If this is true it surpresses the call through to the module. In this case non-mocked functions/properties won't be present
                            If set to false it will overwrite everything that we mock and keep the rest as "live data" */
 };

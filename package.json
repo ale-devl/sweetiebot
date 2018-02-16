@@ -8,7 +8,8 @@
     "run": "node index.js",
     "dev": "nodemon index.js dev",
     "debug": "node --inspect-brk=0.0.0.0:9229 index.js",
-    "test": "nyc mocha test/unit test/playground.js"
+    "test": "mocha test/unit test/playground.js",
+    "testWithCoverage": "nyc mocha test/unit test/playground.js"
   },
   "author": "aletuna",
   "license": "ISC",

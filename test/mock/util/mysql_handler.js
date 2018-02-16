@@ -125,7 +125,7 @@ exports.resetSpies = function (name) {
         return oSpies[name];
     } else {
         Object.keys(oSpies).forEach(key => {
-            oSpies[key].reset();
+            oSpies[key].resetHistory();
         });
     }
 };
