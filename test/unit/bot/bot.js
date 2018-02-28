@@ -14,8 +14,8 @@ describe("bot.js", () => {
             done();
         });
 
-        /*it("should initialise without errors and call all functions", done => {
-            let bot = proxyquire('../api/bot/bot', mocks.full);
+        it("should initialise without errors and call all functions", done => {
+            let bot = proxyquire("../api/bot/bot", mocks.full);
 
             bot.init()
                 .then(() => {
@@ -33,6 +33,6 @@ describe("bot.js", () => {
                 .catch(error => {
                     console.log(error);
                 });
-        });*/
+        });
     });
 });
