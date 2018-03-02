@@ -2,3 +2,4 @@
 --require ./test/setup.js
 --timeout 2000
 --recursive
+--exit

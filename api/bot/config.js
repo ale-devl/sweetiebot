@@ -12,8 +12,8 @@ let _settings = {
     // Your bot's user token. If you don't know what that is, go here:
     // https://discordapp.com/developers/applications/me
     // Then create a new application and grab your token.
-    token: process.env.sweetiebotToken,
-    devToken: process.env.sweetiebotToken_dev,
+    token: process.env.sweetiebotToken || "empty",
+    devToken: process.env.sweetiebotToken_dev || "empty",
 
     // If this is true the beta bot will be started!
     devmode: (process.argv.indexOf("dev") > 0) ? true : false,
@@ -26,9 +26,9 @@ let _settings = {
     },
 
     mysql: {
-        url: process.env.mysqlUrl,
-        user: process.env.mysqlUser,
-        password: process.env.mysqlPassword,
+        url: process.env.mysqlUrl || "",
+        user: process.env.mysqlUser || "",
+        password: process.env.mysqlPassword || "",
         database: null
     }
 };

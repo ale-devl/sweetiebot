@@ -7,15 +7,24 @@ const parser = require("../util/command_parser");
 
 let oLockdown = {}; // { active: boolean, reason: array of strings }
 
+/*
+cfg.loadConfig()
+            .then(() => bot.login(cfg.getToken))
+            .catch(error => {
+                console.log(error);
+                reject(error);
+            });
+*/
+
 exports.init = function () {
     return new Promise((resolve, reject) => {
-        cfg.loadConfig();
-        loginBot()
+        cfg.loadConfig()
+            .then(loginBot)
             .then(attachMessageHandler)
             .then(checkHealthAndRegisterRegularCheck)
             .then(resolve)
             .catch(err => {
-                throw err;
+                reject(err);
             });
     });
 };
@@ -60,42 +69,34 @@ exports.reportToOwner = function (message) {
 function loginBot() {
     return new Promise((resolve, reject) => {
         bot.login(cfg.getToken())
-            .then(() => {
-                resolve();
-            })
-            .catch(err => {
-                reject(err);
-            });
+            .then(resolve)
+            .catch(error => reject(error));
     });
 }
 
 function attachMessageHandler() {
-    return new Promise((resolve, reject) => {
-        bot.on("message", msg => {
-            if (msg.author.id === bot.user.id) {
-                return;
-            }
-            
-            if (oLockdown.active) {
-                if (msg.content === "> unlock") {
-                    healthChecker.singleHealthCheck()
-                        .then(() => {
-                            msg.channel.send("All fine! Bot unlocked.");
-                            this.unlockBot();
-                        })
-                        .catch(err => {
-                            msg.channel.send("Error: " + err + ". Bot remains locked");
-                        });
-                }
-                else if (msg.content[0] === cfg.getPrefix()) {
-                    msg.channel.send("Bot locked. Use '> unlock' to retrigger the check and unlock the bot if possible!");
-                }
-            }
-            else
-                parser.parse_and_dispatch(msg);
-        });
+    bot.on("message", msg => {
+        if (msg.author.id === bot.user.id) {
+            return;
+        }
 
-        resolve();
+        if (oLockdown.active) {
+            if (msg.content === "> unlock") {
+                healthChecker.singleHealthCheck()
+                    .then(() => {
+                        msg.channel.send("All fine! Bot unlocked.");
+                        this.unlockBot();
+                    })
+                    .catch(err => {
+                        msg.channel.send("Error: " + err + ". Bot remains locked");
+                    });
+            }
+            else if (msg.content[0] === cfg.getPrefix()) {
+                msg.channel.send("Bot locked. Use '> unlock' to retrigger the check and unlock the bot if possible!");
+            }
+        }
+        else
+            parser.parse_and_dispatch(msg);
     });
 }
 
