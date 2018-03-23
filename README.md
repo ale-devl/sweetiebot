@@ -1,6 +1,6 @@
 # SweetieBot
 
-## Build Status
+## Build Statuss
 
 master
 :------------:
